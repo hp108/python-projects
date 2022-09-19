@@ -1,0 +1,98 @@
+
+import random
+rank=['two','three','four','five','six','seven','eight','nine','ten','jack','queen','king','ace']
+suit=['heart','spade','diamond','clubs']
+value={'two':2,'three':3,'four':4,'five':5,'six':6,'seven':7,'eight':8,'nine':9,'ten':10,'jack':11,'queen':12,'king':13,'ace':14}
+
+class Card():
+    def __init__(self,suit,rank):
+        self.suit=suit
+        self.rank=rank
+        self.value=value[rank]
+    def __str__(self):
+        return self.rank +'of'+self.suit
+class Deck():
+    def __init__(self):
+        self.allcards=[]
+        for x in rank:
+            for y in suit:
+                self.allcards.append(Card(y,x))
+    def shuffle(self):
+        random.shuffle(self.allcards)
+    def remove_one(self):
+        return self.allcards.pop(0)
+    def __str__(self):
+        return f'deck contains {len(self.allcards)} cards'
+class Player():
+    def __init__(self,name):
+        self.name=name
+        self.allcards=[]
+    def remove_one(self):
+        return self.allcards.pop(0)
+    def add_cards(self,new_cards):
+        if type(new_cards) == type([]):
+            self.allcards.extend(new_cards)
+        else:
+            self.allcards.append(new_cards)
+            
+    def __str__(self):
+        return f'player {self.name} has {len(self.allcards)} cards'
+player1 =Player('hari')
+player2= Player("pavan")
+mydeck=Deck()
+mydeck.shuffle()
+for i in range(26):
+    player1.add_cards(mydeck.remove_one())
+    player2.add_cards(mydeck.remove_one())
+game_on=True
+round=0
+while game_on:
+    if(len(player1.allcards)==0):
+        print("player1 has 0 cards player2 wins")
+        game_on=False
+        break
+    
+    elif(len(player2.allcards)==0):
+        print("player2 has 0 cards player1 wins")
+        game_on=False
+        break
+    round+=1
+    print('round no =',round)
+    player1_cards=[]
+    player2_cards=[]
+    player1_cards.append(player1.remove_one())
+    player2_cards.append(player2.remove_one())
+    war = True
+    while(war):
+        
+        if(player1_cards[-1].value>player2_cards[-1].value):
+            war=False
+            player1.add_cards(player1_cards)
+            player1.add_cards(player2_cards)
+            
+        elif(player1_cards[-1].value<player2_cards[-1].value):
+            war=False
+            player2.add_cards(player2_cards)
+            player2.add_cards(player1_cards)
+        else:
+            print("WAR!!")
+            if len(player1.allcards)<5:
+                print("player1 has less cards player2 wins")
+                game_on=False
+                war =False
+                break
+            if len(player2.allcards)<5:
+                print("player2 has less cards player 1 wins")
+                game_on=False
+                war=False
+                break
+            else:
+                for i in range(5):
+                    player1_cards.append(player1.remove_one())
+                    player2_cards.append(player2.remove_one())
+                
+            
+                
+        
+
+        

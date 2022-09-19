@@ -1,0 +1,137 @@
+# Online Python compiler (interpreter) to run Python online.
+# Write Python 3 code in this online editor and run it.
+import random
+def display_game(index_list):
+        print(index_list[0],'|',index_list[1],'|',index_list[2])
+        print('--|---|--')
+        print(index_list[3],'|',index_list[4],'|',index_list[5])
+        print('--|---|--')
+        print(index_list[6],'|',index_list[7],'|',index_list[8])
+        
+        
+
+def input_symbol():
+    symbol='k'
+    while True:
+            symbol=input("choose 'x' or 'o' :- ")
+            if(symbol == 'x'):
+                player1 ='x'
+                player2 = 'o'
+                break
+            elif(symbol == 'o'):
+                player1 ='o'
+                player2='x'
+                break
+            else:
+                print("enter correct input :- ")
+    return (player1,player2)
+    
+    
+    
+def validate_index(num):
+        return (num in range(0,10))
+    
+    
+
+def change_array(index_list,num,player,turn):
+    while(True):
+            if(index_list[num-1]=='-'):
+                index_list[num-1]=player
+                break
+            else:
+                print("it is already filled please take other index")
+                if(turn =='player1'):
+                        num=int(input("enter index for player1 :- "))
+                else :
+                    num=int(input("enter index for player2 :- "))
+                    
+                
+                
+def choose_first():
+    f=random.randint(0,1)
+    if(f==0):
+        return 'player1'
+    else:
+        return 'player2'
+        
+        
+def replay():
+    s=input("enter 'y' to replay the game :- ")
+    return(s.upper()=='Y')
+    
+    
+def empty_space(index_list):
+    for x in range(0,9):
+        if(x=='-'):
+            return True
+    return False
+    
+    
+def space_full(index_list):
+    for x in  index_list:
+        if(x=='-'):
+            return False
+    return True
+    
+def win_check(index_list,player):
+    return (index_list[0]==index_list[1]==index_list[2]==player or index_list[3]==index_list[4]==index_list[5]==player or index_list[6]==index_list[7]==index_list[8]==player or index_list[0]==index_list[3]==index_list[6]==player or index_list[1]==index_list[4]==index_list[7]==player or index_list[2]==index_list[5]==index_list[8] == player or index_list[0]==index_list[4]==index_list[8]==player or index_list[2]==index_list[4]==index_list[6]==player)
+    
+    
+    
+print("welcome to tic-tak-toe")
+while(True):
+            index_list=['-']
+            index_list=index_list*9
+            player1,player2=input_symbol()
+            turn =choose_first()
+            print(turn,'will go first')
+            game_on=input("enter yes to start game :- ")
+            game_on=game_on.upper()
+            if(game_on=='YES'):
+                game_on=True
+            else :
+                game_on=False
+            while(game_on):
+                if turn == 'player1':
+                    display_game(index_list)
+                    num=int(input("enter index for player1 :- "))
+                    if(validate_index(num)):
+                        change_array(index_list,num,player1,turn)
+                        if(win_check(index_list,player1)):
+                            display_game(index_list)
+                            print("player1 wins")
+                            game_on=False
+                        elif(space_full(index_list)):
+                            print("game is tie")
+                            game_on=False
+                        else:
+                            turn='player2'
+                        
+                    else:
+                        print("enter index in range(0,9)")
+                        continue
+                if(turn =='player2'):
+                    display_game(index_list)
+                    num=int(input("enter index for player2 :- "))
+                    if(validate_index(num)):
+                        change_array(index_list,num,player2,turn)
+                        if(win_check(index_list,player2)):
+                            display_game(index_list)
+                            print("player2 wins")
+                            game_on=False
+                        elif(space_full(index_list)):
+                            display_game(index_list)
+                            print("game is tie")
+                            game_on=False
+                        else:
+                            turn='player1'
+                        
+                    else:
+                        print("enter index in range(0,9)")
+                        continue
+            if not(replay()):
+                break
+        
+    
+    
+    
